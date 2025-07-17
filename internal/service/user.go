@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nkroshechkin/micro-blog-zero/internal/models"
+	"github.com/nkroshechkin/micro-blog-zero/internal/utils"
 )
 
 type UserService interface {
@@ -14,15 +15,15 @@ type UserService interface {
 }
 
 type userService struct {
-	users *[]models.User
+	ds *models.DataStructures
 }
 
-func NewUserService(users *[]models.User) UserService {
-	return &userService{users: users}
+func NewUserService(ds *models.DataStructures) UserService {
+	return &userService{ds: ds}
 }
 
 func (s *userService) GetAllUser() (*[]models.User, error) {
-	users := s.users
+	users := s.ds.Users
 	return users, nil
 }
 
@@ -31,10 +32,8 @@ func (s *userService) GetUser(id string) (models.User, error) {
 		return models.User{}, errors.New("id пустой")
 	}
 
-	for _, item := range *s.users {
-		if itemID := item.Id; itemID == id {
-			return item, nil
-		}
+	if user, ok := utils.SearchSliceById(s.ds.Users, id); ok {
+		return *user, nil
 	}
 
 	return models.User{}, errors.New("пользователь не найден")
@@ -42,11 +41,14 @@ func (s *userService) GetUser(id string) (models.User, error) {
 }
 
 func (s *userService) CreateUser(name string) (string, error) {
+
+	if name == "" {
+		return "", errors.New("имя пользователя пустое")
+	}
+
 	likes := []string{}
-
-	newUser := models.User{Id: uuid.New().String(), Username: name, Likes: likes}
-
-	*s.users = append(*s.users, newUser)
+	newUser := models.User{Id: uuid.New().String(), Username: name, Likes: &likes}
+	*s.ds.Users = append(*s.ds.Users, newUser)
 
 	return newUser.Id, nil
 }
