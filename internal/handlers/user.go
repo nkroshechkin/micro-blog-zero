@@ -24,6 +24,7 @@ func (h *UserHandler) GetUsers(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
+		res.WriteHeader(http.StatusFound)
 		json.NewEncoder(res).Encode(user)
 		return
 	}
@@ -34,6 +35,7 @@ func (h *UserHandler) GetUsers(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	res.WriteHeader(http.StatusFound)
 	json.NewEncoder(res).Encode(user)
 
 }
