@@ -11,7 +11,8 @@ import (
 
 func initDS() *models.DataStructures {
 	users := []models.User{}
-	ds := models.DataStructures{Users: &users}
+	posts := []models.Post{}
+	ds := models.DataStructures{Users: &users, Posts: &posts}
 	return &ds
 }
 
