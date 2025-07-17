@@ -3,19 +3,22 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/nkroshechkin/micro-blog-zero/internal/handlers"
+	"github.com/nkroshechkin/micro-blog-zero/internal/models"
 	"github.com/nkroshechkin/micro-blog-zero/pkg/server"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the home page!")
+func initDS() *models.DataStructures {
+	users := []models.User{}
+	ds := models.DataStructures{Users: &users}
+	return &ds
 }
 
 func main() {
-	routes := handlers.InitRoutes()
 
+	ds := initDS()
+	routes := handlers.InitRoutes(ds)
 	srv := server.Server{}
 
 	if err := srv.Run("8080", routes); err != nil {
