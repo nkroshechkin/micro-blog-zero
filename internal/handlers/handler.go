@@ -26,7 +26,7 @@ func InitRoutes(ds *models.DataStructures) *http.ServeMux {
 	postHandler := initPostHandler(ds)
 	router.HandleFunc("GET /posts", postHandler.GetPosts)
 	router.HandleFunc("POST /posts", postHandler.CreatePosts)
-	router.HandleFunc("POST /post/{id}/like", postHandler.LikePosts)
+	router.HandleFunc("POST /posts/{id}/like", postHandler.LikePosts)
 
 	return router
 }

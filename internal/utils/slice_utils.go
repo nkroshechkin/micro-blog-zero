@@ -2,10 +2,10 @@ package utils
 
 import "reflect"
 
-func SearchSliceById[T any](slice *[]T, id string) (*T, bool) {
-	for _, item := range *slice {
+func SliceSearchById[T any](slice []T, id string) (*T, bool) {
+	for i, item := range slice {
 		if v, ok := getIdFromItem(item); ok && v == id {
-			return &item, true
+			return &slice[i], true
 		}
 	}
 	return nil, false
@@ -23,4 +23,15 @@ func getIdFromItem(item interface{}) (string, bool) {
 	}
 
 	return "", false
+}
+
+func SliceFilter[T any](slice []T, callback func(item T) bool) []T {
+	filteredSlice := make([]T, len(slice), cap(slice))
+	for _, item := range slice {
+		if callback(item) {
+			filteredSlice = append(filteredSlice, item)
+		}
+	}
+
+	return filteredSlice
 }
