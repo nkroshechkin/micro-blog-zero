@@ -26,7 +26,7 @@ func getIdFromItem(item interface{}) (string, bool) {
 }
 
 func SliceFilter[T any](slice []T, callback func(item T) bool) []T {
-	filteredSlice := make([]T, len(slice), cap(slice))
+	filteredSlice := make([]T, 0, len(slice))
 	for _, item := range slice {
 		if callback(item) {
 			filteredSlice = append(filteredSlice, item)
