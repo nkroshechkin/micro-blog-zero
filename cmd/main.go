@@ -12,7 +12,7 @@ import (
 func initDS() *models.DataStructures {
 	users := []models.User{}
 	posts := []models.Post{}
-	ds := models.DataStructures{Users: &users, Posts: &posts}
+	ds := models.DataStructures{Users: users, Posts: posts}
 	return &ds
 }
 
@@ -22,9 +22,10 @@ func main() {
 	routes := handlers.InitRoutes(ds)
 	srv := server.Server{}
 
+	fmt.Printf("serverStart port: %s \n", "8080")
+
 	if err := srv.Run("8080", routes); err != nil {
 		log.Fatalf("Произошла: %s", err)
 	}
 
-	fmt.Printf("serverStart port: %s \n", "8080")
 }

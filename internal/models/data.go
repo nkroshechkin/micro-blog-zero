@@ -1,6 +1,6 @@
 package models
 
 type DataStructures struct {
-	Users *[]User
-	Posts *[]Post
+	Users []User
+	Posts []Post
 }
