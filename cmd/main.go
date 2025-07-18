@@ -10,8 +10,8 @@ import (
 )
 
 func initDS() *models.DataStructures {
-	users := []models.User{}
-	posts := []models.Post{}
+	users := make([]models.User, 0)
+	posts := make([]models.Post, 0)
 	ds := models.DataStructures{Users: users, Posts: posts}
 	return &ds
 }

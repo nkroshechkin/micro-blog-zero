@@ -5,3 +5,7 @@ type User struct {
 	Username string
 	Likes    []string
 }
+
+type ManyUsers struct {
+	Users []User `json:"users"`
+}

@@ -6,3 +6,7 @@ type Post struct {
 	Text     string
 	LikeList []string
 }
+
+type ManyPosts struct {
+	Posts []Post `json:"posts"`
+}

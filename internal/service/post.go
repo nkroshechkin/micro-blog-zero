@@ -32,7 +32,7 @@ func (p *postService) GetPost(id string) (models.Post, error) {
 	if id == "" {
 		return models.Post{}, errors.New("id пустой")
 	}
-	if post, ok := utils.SearchSliceById(p.ds.Posts, id); ok {
+	if post, ok := utils.SliceSearchById(p.ds.Posts, id); ok {
 		return *post, nil
 	}
 	return models.Post{}, errors.New("пост не найден")
@@ -40,11 +40,11 @@ func (p *postService) GetPost(id string) (models.Post, error) {
 
 func (p *postService) CreatePost(authorId string, text string) (string, error) {
 
-	if _, ok := utils.SearchSliceById(p.ds.Users, authorId); !ok {
+	if _, ok := utils.SliceSearchById(p.ds.Users, authorId); !ok {
 		return "", errors.New("некоректный пользователь")
 	}
 
-	likes := []string{}
+	likes := make([]string, 0)
 	newPost := models.Post{Id: uuid.New().String(), AuthorId: authorId, Text: text, LikeList: likes}
 	p.ds.Posts = append(p.ds.Posts, newPost)
 
@@ -53,8 +53,8 @@ func (p *postService) CreatePost(authorId string, text string) (string, error) {
 
 func (p *postService) LikePost(userId string, postId string) (string, error) {
 
-	user, userFound := utils.SearchSliceById(p.ds.Users, userId)
-	post, postFound := utils.SearchSliceById(p.ds.Posts, postId)
+	user, userFound := utils.SliceSearchById(p.ds.Users, userId)
+	post, postFound := utils.SliceSearchById(p.ds.Posts, postId)
 	if !userFound {
 		return "", errors.New("некоректный пользователь")
 	}
